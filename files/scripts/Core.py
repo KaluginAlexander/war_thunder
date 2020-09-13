@@ -1,5 +1,6 @@
 import pygame
 import files.scripts.map.Background as Background
+import files.scripts.player.Player as Player
 
 pygame.init()
 
@@ -13,7 +14,8 @@ class Core:
         
         self.screen = pygame.display.set_mode((750, 750))
 
-        self.bg = Background.get(color = (255, 255, 255), surface = self.screen)
+        self.bg = Background.get(color = (117, 187, 253), surface = self.screen)
+        self.player = Player.get(self.screen)
 
         self.game = True
         self.clock = pygame.time.Clock()
@@ -23,6 +25,7 @@ class Core:
 
             # place for update
             self.bg.update()
+            self.player.update()
 
             for event in pygame.event.get():
 
