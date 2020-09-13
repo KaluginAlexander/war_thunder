@@ -1,6 +1,7 @@
 import pygame
 import files.scripts.map.Background as Background
 import files.scripts.player.Player as Player
+import files.scripts.bullets.bullet as Bullets
 
 pygame.init()
 
@@ -26,6 +27,7 @@ class Core:
             # place for update
             self.bg.update()
             self.player.update()
+            Bullets.update()
 
             for event in pygame.event.get():
 

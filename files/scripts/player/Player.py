@@ -1,6 +1,7 @@
 from pygame.image import load
 from pygame.key import get_pressed
-from pygame import K_w, K_a, K_s, K_d
+from pygame import K_w, K_a, K_s, K_d, K_SPACE
+import files.scripts.bullets.bullet as Bullet 
 
 class Player:
 
@@ -37,6 +38,8 @@ class Player:
 
         self._speedOther = 3
         self._speedUp = 5
+
+        self.type = 'PLAYER'
         
     
     def _draw(self):
@@ -66,7 +69,14 @@ class Player:
         if keys[K_d]:
             self._go_to_right()
 
+        if keys[K_SPACE]:
+            self._shoot()
+
     
+    def _shoot(self):
+        Bullet.add(self.__surface, self)
+
+
     def _go_to_left(self):
         self.x -= self._speedOther
 
