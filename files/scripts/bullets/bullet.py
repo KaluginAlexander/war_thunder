@@ -20,15 +20,17 @@ class Bullet:
     def __get_start_config(self):
 
         self.x = self._shooter.x + self._shooter.width // 2
-        self.y = self._shooter.y
+        
 
         if self._shooter.type == 'PLAYER':
             self._speed = -6
             self.__barrier = -20
+            self.y = self._shooter.y
 
         else:
             self._speed = 6
             self.__barrier = self.__surface.get_height() + 20
+            self.y = self._shooter.y + self._shooter.width
 
     
     def _draw(self):

@@ -2,6 +2,7 @@ import pygame
 import files.scripts.map.Background as Background
 import files.scripts.player.Player as Player
 import files.scripts.bullets.bullet as Bullets
+import files.scripts.enemy.Enemy as Enemys
 
 pygame.init()
 
@@ -14,6 +15,8 @@ class Core:
     def __start(self):
         
         self.screen = pygame.display.set_mode((750, 750))
+
+        Enemys.add(self.screen)
 
         self.bg = Background.get(color = (117, 187, 253), surface = self.screen)
         self.player = Player.get(self.screen)
@@ -28,6 +31,7 @@ class Core:
             self.bg.update()
             self.player.update()
             Bullets.update()
+            Enemys.update()
 
             for event in pygame.event.get():
 
