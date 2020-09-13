@@ -18,8 +18,8 @@ class Player:
 
 
     def __load_sprite(self):
-        self.default = load('files/textures/players/player.png').convert_alpha()
-        self._sprite = self.default
+        self.__default = load('files/textures/players/player.png').convert_alpha()
+        self._sprite = self.__default
 
         self.width = self._sprite.get_width()
         self.height = self._sprite.get_height()
@@ -40,16 +40,73 @@ class Player:
         self._speedUp = 5
 
         self.type = 'PLAYER'
-        
+
+        self.__cooldown = False
+        self.__cooldown_counter = 0 
+        self.__cooldown_ticks = 10
     
     def _draw(self):
         self.__surface.blit(self._sprite, (self.x, self.y))
 
 
+    def _cooldown_check(self):
+        
+        if not self.__cooldown:
+            self._shoot()
+            self.__set_cooldown()
+
+    def __set_cooldown(self):
+
+        self.__cooldown = True
+        self.__cooldown_counter = self.__cooldown_ticks
+
+
+    def __cooldown_delay(self):
+
+        if self.__cooldown:
+
+            if self.__cooldown_counter > 0:
+                self.__cooldown_counter -= 1
+            
+            else:
+                self.__cooldown = False
+
+
+    def _check_left_border(self):
+
+        if self.x < 0:
+            return False
+
+        return True
+
+    
+    def _check_right_border(self):
+
+        if self.x > self._surface_width - self.width:
+            return False
+
+        return True
+
+    
+    def _check_up_border(self):
+
+        if self.y < 0:
+            return False
+
+        return True
+
+    
+    def _check_down_border(self):
+
+        if self.y > self._surface_height - self.height:
+            return False
+
+        return True
+
     def update(self):
 
         self.__check_keys()
-
+        self.__cooldown_delay()
         self._draw()
 
 
@@ -57,20 +114,20 @@ class Player:
         
         keys = get_pressed()
 
-        if keys[K_w]:
+        if keys[K_w] and self._check_up_border():
             self._go_to_up()
 
-        if keys[K_a]:
+        if keys[K_a] and self._check_left_border():
             self._go_to_left()
 
-        if keys[K_s]:
+        if keys[K_s] and self._check_down_border():
             self._go_to_down()
 
-        if keys[K_d]:
+        if keys[K_d] and self._check_right_border():
             self._go_to_right()
 
         if keys[K_SPACE]:
-            self._shoot()
+            self._cooldown_check()
 
     
     def _shoot(self):
