@@ -4,6 +4,7 @@ import files.scripts.player.Player as Player
 import files.scripts.bullets.bullet as Bullets
 import files.scripts.enemy.Enemy as Enemys
 import files.scripts.map.Explosion as Explosion
+import files.scripts.bonus.protect_bonus as PBonus
 
 pygame.init()
 
@@ -18,7 +19,7 @@ class Core:
         self.screen = pygame.display.set_mode((750, 750))
 
         self.bg = Background.get(color = (117, 187, 253), surface = self.screen)
-        self.player = Player.get(self.screen)
+        Player._init(self.screen)
 
         self.game = True
         self.clock = pygame.time.Clock()
@@ -28,10 +29,11 @@ class Core:
 
             # place for update
             self.bg.update()
-            self.player.update()
+            Player.update()
             Bullets.update()
             Enemys.update(self.screen)
             Explosion.update()
+            PBonus.update()
 
             for event in pygame.event.get():
 

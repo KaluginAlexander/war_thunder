@@ -32,6 +32,8 @@ class Bullet:
             self.__barrier = self.__surface.get_height() + 20
             self.y = self._shooter.y + self._shooter.width
 
+        self.damage = 25
+
     
     def _draw(self):
         self.__surface.blit(self._sprite, (self.x, self.y))
@@ -72,6 +74,9 @@ class Bullet:
     def __load_sprite(self):
         self.__bullet = load('files/textures/bullets/bullet.png')
         self._sprite = self.__bullet
+
+        self.width = self._sprite.get_width()
+        self.height = self._sprite.get_height()
 
 
 def delete_bullet(bullet):

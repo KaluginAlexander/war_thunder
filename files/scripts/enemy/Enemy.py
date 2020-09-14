@@ -2,6 +2,7 @@ from pygame.image import load
 import files.scripts.bullets.bullet as Bullet 
 import random
 import files.scripts.map.Explosion as Explosion
+import files.scripts.bonus.protect_bonus as PBonus
 
 enemys = []
 
@@ -119,8 +120,16 @@ class Enemy:
         delete_enemy(self)
 
 
+    def give_bonus(self):
+
+        if random.randint(1, 5) == 2:
+            
+            PBonus.add(self.__surface, self.x + self.width // 2, self.y + self.height // 2)
+
+
     def _die(self):
         Explosion.add(self.__surface, self.x, self.y)
+        self.give_bonus()
         self.__delete()
 
 def delete_enemy(enemy):
@@ -168,9 +177,9 @@ def check_collide():
 
     global enemys
 
-    for en in enemys:
+    bullets = Bullet.bullets
 
-        bullets = Bullet.bullets
+    for en in enemys:
 
         for bullet in bullets:
 
