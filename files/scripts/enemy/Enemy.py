@@ -7,8 +7,11 @@ enemys = []
 
 surface = None
 
+enemy_count = 0
+max_enemy = 10
+
 counter = 0
-delay = 120
+delay = 1800
 
 class Enemy:
 
@@ -31,7 +34,7 @@ class Enemy:
         self._surface_center_y = self._surface_height // 2
 
         self.x = random.randint(0, self._surface_width // 10) * 10  
-        self.y = -10
+        self.y = -10 - self.height
 
         self.__steps_for_animate = 100
 
@@ -74,7 +77,7 @@ class Enemy:
 
         self.width = self._sprite.get_width()
         self.height = self._sprite.get_height()
-        
+
     
     def _go_to_random_place(self):
 
@@ -143,15 +146,17 @@ def update(surf):
 
 def counter_for_add_planes():
 
-    global counter
+    global enemy_count, surface, counter
+
+    while len(enemys) < enemy_count:
+        add(surface)
 
     if counter < 1:
 
-        global surface
-
-        add(surface)
-
         counter = delay
+
+        if enemy_count < max_enemy:
+            enemy_count += 1
 
     counter -= 1
 
