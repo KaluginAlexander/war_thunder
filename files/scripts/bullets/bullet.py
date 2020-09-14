@@ -56,10 +56,10 @@ class Bullet:
             self.y += self._speed
 
         else:
-            self.__delete()
+            self._delete()
 
 
-    def __delete(self):
+    def _delete(self):
         global delete_bullet
         delete_bullet(self)
 

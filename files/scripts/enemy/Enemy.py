@@ -1,8 +1,14 @@
 from pygame.image import load
 import files.scripts.bullets.bullet as Bullet 
 import random
+import files.scripts.map.Explosion as Explosion
 
 enemys = []
+
+surface = None
+
+counter = 0
+delay = 120
 
 class Enemy:
 
@@ -68,6 +74,7 @@ class Enemy:
 
         self.width = self._sprite.get_width()
         self.height = self._sprite.get_height()
+        
     
     def _go_to_random_place(self):
 
@@ -103,6 +110,16 @@ class Enemy:
         self._go_to_random_place()
         self.__cooldown_delay()
 
+    
+    def __delete(self):
+        global delete_enemy
+        delete_enemy(self)
+
+
+    def _die(self):
+        Explosion.add(self.__surface, self.x, self.y)
+        self.__delete()
+
 def delete_enemy(enemy):
     del enemys[enemys.index(enemy)]
 
@@ -111,6 +128,53 @@ def add(surface):
     enemys.append(Enemy(surface))
 
 
-def update():
+def update(surf):
+
+    global surface
+
+    surface = surf
+
+    counter_for_add_planes()
+    check_collide()
+
     for enemy in enemys:
         enemy.update()
+        
+
+def counter_for_add_planes():
+
+    global counter
+
+    if counter < 1:
+
+        global surface
+
+        add(surface)
+
+        counter = delay
+
+    counter -= 1
+
+
+def delete_enemy(en):
+    del enemys[enemys.index(en)]
+
+def check_collide():
+
+    global enemys
+
+    for en in enemys:
+
+        bullets = Bullet.bullets
+
+        for bullet in bullets:
+
+            if bullet._shooter.type == 'PLAYER':
+                
+                if bullet.x in range(en.x, en.x + en.width) and bullet.y in range(en.y + en.height):
+
+                    try:
+                        en._die()
+                        bullet._delete()
+                    except:
+                        pass
