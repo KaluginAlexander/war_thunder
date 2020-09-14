@@ -6,6 +6,7 @@ import files.scripts.enemy.Enemy as Enemys
 import files.scripts.map.Explosion as Explosion
 import files.scripts.bonus.protect_bonus as PBonus
 from files.scripts.interfaces.Protect import Protect
+from files.scripts.interfaces.Health import Health
 
 pygame.init()
 
@@ -23,6 +24,7 @@ class Core:
         Player._init(self.screen)
         
         self.pInterface = Protect(self.screen)
+        self.hInterface = Health(self.screen)
         self.game = True
         self.clock = pygame.time.Clock()
         self.FPS = 60
@@ -39,10 +41,10 @@ class Core:
 
             try:
                 self.pInterface.update(Player.player)
-
+                self.hInterface.update(Player.player)
             except:
                 pass
-            
+
             for event in pygame.event.get():
 
                 if event.type == pygame.QUIT:
