@@ -5,6 +5,7 @@ import files.scripts.bullets.bullet as Bullets
 import files.scripts.enemy.Enemy as Enemys
 import files.scripts.map.Explosion as Explosion
 import files.scripts.bonus.protect_bonus as PBonus
+from files.scripts.interfaces.Protect import Protect
 
 pygame.init()
 
@@ -20,7 +21,8 @@ class Core:
 
         self.bg = Background.get(color = (117, 187, 253), surface = self.screen)
         Player._init(self.screen)
-
+        
+        self.pInterface = Protect(self.screen)
         self.game = True
         self.clock = pygame.time.Clock()
         self.FPS = 60
@@ -35,6 +37,12 @@ class Core:
             Explosion.update()
             PBonus.update()
 
+            try:
+                self.pInterface.update(Player.player)
+
+            except:
+                pass
+            
             for event in pygame.event.get():
 
                 if event.type == pygame.QUIT:
